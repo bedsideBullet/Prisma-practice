@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  username    String       @unique
+  age         Int
+  starRatings StarRating[]
+}
+
+model StarRating {
+  id      Int   @id @default(autoincrement())
+  score   Int // Should be 1 / 5
+  userId  Int
+  user    User  @relation(references: [id], fields: [userId])
+  movieId Int
+  movie   Movie @relation(references: [id], fields: [movieId])
+}
+
+model Movie {
+  id             Int          @id @default(autoincrement())
+  title          String
+  releaseYear    Int
+  starRatings    StarRating[]
+  parentalRating String
+}
