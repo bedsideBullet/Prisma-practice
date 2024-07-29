@@ -27,6 +27,7 @@ model StarRating {
   movie   Movie @relation(references: [id], fields: [movieId])
 }
 
+
 model Movie {
   id             Int          @id @default(autoincrement())
   title          String
